@@ -30,3 +30,32 @@ export const getPopularMovies = async () => {
 
   return response.data.results;
 };
+
+export const getMovie = async (movieId) => {
+  const response = await axios.get(
+    `${BASE_URL}/movie/${movieId}`,
+    {
+      params: {
+        api_key: API_KEY,
+        language: 'ru-RU',
+      },
+    },
+  );
+
+  return response.data;
+};
+
+export const getMovieReleaseDates = async (
+  movieId,
+) => {
+  const response = await axios.get(
+    `${BASE_URL}/movie/${movieId}/release_dates`,
+    {
+      params: {
+        api_key: API_KEY,
+      },
+    },
+  );
+
+  return response.data;
+};

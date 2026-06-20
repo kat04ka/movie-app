@@ -33,14 +33,13 @@ function HomePage() {
   }, []);
 
   return (
-    <div className="w-full min-h-screen bg-white">
+    <div className="w-full min-h-screen overflow-x-hidden bg-white">
       <h1 className="header text-2xl text-white text-center p-6">
         Movie app
       </h1>
 
       <div className="flex gap-4 py-1 text-white items-center justify-center bg-[#11233c]">
         <Link to="/">Home</Link>
-        <Link to="/movie/1">Movie</Link>
         <Link to="/favorites">Favorites</Link>
         <form
           onSubmit={handleSubmit}
@@ -57,9 +56,7 @@ function HomePage() {
         </form>
       </div>
 
-      <div>
-        <MovieList movies={movies} />
-      </div>
+      <MovieList movies={movies} />
     </div>
   );
 }
