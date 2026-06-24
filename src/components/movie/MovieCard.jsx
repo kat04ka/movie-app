@@ -1,12 +1,28 @@
-import { Link } from 'react-router-dom';
+import {
+  Link,
+  useLocation,
+} from 'react-router-dom';
 import { formatDate } from '../../utils/formatDate';
+import { getPosterUrl } from '../../utils/imageUrl';
 
 function MovieCard({ movie }) {
+  const location = useLocation();
   return (
-    <Link to={`/movie/${movie.id}`}>
+    <Link
+      to={`/movie/${movie.id}`}
+      onClick={() => {
+        sessionStorage.setItem(
+          'homeScroll',
+          window.scrollY,
+        );
+      }}
+      state={{
+        from: location,
+      }}
+    >
       <div className="rounded-lg w-full overflow-hidden bg-black/50 flex flex-col h-full">
         <img
-          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+          src={getPosterUrl(movie.poster_path)}
           alt={movie.title || movie.name}
         />
         <div className="w-full text-white pt-2 px-3 pb-3 ">

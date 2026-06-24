@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
-import Button from '../components/ui/Button';
-import Input from '../components/ui/Input';
+import SearchBar from '../components/movie/SearchBar';
 
-function FavoritesPage({ handleSubmit, query }) {
+function FavoritesPage({
+  handleSubmit,
+  query,
+  setQuery,
+}) {
   return (
     <>
       <h1 className="header text-2xl text-white text-center p-6">
@@ -10,21 +13,13 @@ function FavoritesPage({ handleSubmit, query }) {
       </h1>
       <div className="flex gap-4 py-1 text-white items-center justify-center bg-[#11233c]">
         <Link to="/">Home</Link>
-        <Link to="/movie/157336">Movie</Link>
         <Link to="/favorites">Favorites</Link>
-        <form
+        <Link to="/">Serials</Link>
+        <SearchBar
+          query={query}
+          setQuery={setQuery}
           onSubmit={handleSubmit}
-          className="flex gap-2"
-        >
-          <Input
-            value={query}
-            onChange={(e) =>
-              setQuery(e.target.value)
-            }
-            placeholder="Search movie"
-          />
-          <Button type="submit">Search</Button>
-        </form>
+        />
       </div>
       <h1>FavoritesPage</h1>
     </>
