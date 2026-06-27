@@ -77,6 +77,6 @@ export const getMovieCredits = async (
       },
     },
   );
-  
+
   return response.data;
 };

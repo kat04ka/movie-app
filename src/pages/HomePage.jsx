@@ -3,8 +3,6 @@ import {
   useLocation,
   useSearchParams,
 } from 'react-router-dom';
-import Button from '../components/ui/Button';
-import Input from '../components/ui/Input';
 import { useEffect, useState } from 'react';
 import {
   searchMovies,
@@ -30,7 +28,7 @@ function HomePage() {
 
     if (!query.trim()) return;
 
-    setSearchParams({ page: 1 });
+    setSearchParams({ page: 1, query });
   };
 
   useEffect(() => {

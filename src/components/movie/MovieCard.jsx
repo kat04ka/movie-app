@@ -6,10 +6,18 @@ import { formatDate } from '../../utils/formatDate';
 import { getPosterUrl } from '../../utils/imageUrl';
 
 function MovieCard({ movie }) {
+  const {
+    id,
+    title,
+    name,
+    poster_path,
+    release_date,
+  } = movie;
+
   const location = useLocation();
   return (
     <Link
-      to={`/movie/${movie.id}`}
+      to={`/movie/${id}`}
       onClick={() => {
         sessionStorage.setItem(
           'homeScroll',
@@ -22,15 +30,13 @@ function MovieCard({ movie }) {
     >
       <div className="rounded-lg w-full overflow-hidden bg-black/50 flex flex-col h-full">
         <img
-          src={getPosterUrl(movie.poster_path)}
-          alt={movie.title || movie.name}
+          src={getPosterUrl(poster_path)}
+          alt={title || name}
         />
         <div className="w-full text-white pt-2 px-3 pb-3 ">
-          <h3 className="semibold">
-            {movie.title}
-          </h3>
+          <h3 className="semibold">{title}</h3>
           <p className="text-white/70 text-sm mt-1">
-            {formatDate(movie.release_date)}
+            {formatDate(release_date)}
           </p>
         </div>
       </div>

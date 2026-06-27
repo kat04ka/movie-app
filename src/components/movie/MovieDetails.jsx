@@ -1,10 +1,11 @@
-import { formatDate } from '../../utils/formatDate';
 import {
   getBackdropUrl,
   getPosterUrl,
 } from '../../utils/imageUrl';
 import CastList from './CastList';
+import CrewInfo from './CrewInfo';
 import MovieInfo from './MovieInfo';
+import MovieMeta from './MovieMeta';
 
 function MovieDetails({
   movie,
@@ -13,69 +14,73 @@ function MovieDetails({
   director,
   writers,
 }) {
+  const {
+    backdrop_path,
+    poster_path,
+    title,
+    name,
+    status,
+    budget,
+    original_language,
+    revenue,
+  } = movie;
   return (
-    <div className="relative overflow-hidden">
-      <div
-        className="movie-backdrop absolute inset-0 bg-cover"
-        style={{
-          backgroundImage: `url(${getBackdropUrl(movie.backdrop_path)})`,
-          backgroundRepeat: 'no-repeat',
-        }}
-      />
-      <div
-        className="absolute inset-0"
-        style={{
-          background: `linear-gradient(
+    <div>
+      <div className="relative overflow-hidden">
+        <div
+          className="movie-backdrop absolute inset-0 bg-cover"
+          style={{
+            backgroundImage: `url(${getBackdropUrl(backdrop_path)})`,
+            backgroundRepeat: 'no-repeat',
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(
           to right, 
           rgba(31,10,10,1) 0%, 
           rgba(31,10,10,0.84) 50%, 
           rgba(31,10,10,0.84) 100%)`,
-        }}
-      />
-      <div className="relative z-1 max-w-7xl mx-auto px-8 py-10">
-        <div className="flex flex-col sm:flex-row gap-5">
-          {movie.poster_path && (
-            <img
-              className="w-55 h-82 rounded-lg object-cover"
-              src={getPosterUrl(
-                movie.poster_path,
-              )}
-              alt={movie.title || movie.name}
-            />
-          )}
-          <div className="flex-1 text-white">
-            <MovieInfo
-              movie={movie}
-              rating={rating}
-            />
-            <div className="mt-4">
-              <CastList cast={cast} />
-
-              <div className="flex gap-8 mt-4">
-                <div className="">
-                  <h4 className="text-white/70">
-                    Director:{' '}
-                  </h4>
-                  <p className="font-semibold">
-                    {director?.name}
-                  </p>
-                </div>
-
-                {writers?.length > 0 && (
-                  <div>
-                    <h4 className="text-white/70">
-                      Writers:
-                    </h4>
-                    <p className="font-semibold">
-                      {writers
-                        ?.map((w) => w.name)
-                        .join(', ')}
-                    </p>
-                  </div>
-                )}
+          }}
+        />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 py-10">
+          <div className="flex flex-col sm:flex-row gap-5">
+            {poster_path && (
+              <img
+                className="w-55 h-82 rounded-lg object-cover"
+                src={getPosterUrl(poster_path)}
+                alt={title || name}
+              />
+            )}
+            <div className="flex-1 text-white">
+              <MovieInfo
+                movie={movie}
+                ageRating={rating}
+              />
+              <div>
+                <CrewInfo
+                  director={director}
+                  writers={writers}
+                />
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="max-w-7xl mx-auto px-8 py-8">
+        <div className="flex flex-col sm:flex-row items-start">
+          <div className="w-full min-w-0 overflow-hidden pr-0 sm:pr-2">
+            <CastList cast={cast} />
+          </div>
+          <aside className="shrink-0">
+            <MovieMeta
+              status={status}
+              budget={budget}
+              originalLanguage={original_language}
+              revenue={revenue}
+            />
+          </aside>
         </div>
       </div>
     </div>
