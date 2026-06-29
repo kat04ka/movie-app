@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import HomePage from '../pages/HomePage';
 import MoviePage from '../pages/MoviePage';
 import FavoritesPage from '../pages/FavoritesPage';
+import SeriesPage from '../pages/SeriesPage';
 
 function AppRoutes() {
   return (
@@ -14,6 +15,10 @@ function AppRoutes() {
       <Route
         path="/favorites"
         element={<FavoritesPage />}
+      />
+      <Route
+        path="/series"
+        element={<SeriesPage />}
       />
     </Routes>
   );

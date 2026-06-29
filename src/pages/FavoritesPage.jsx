@@ -14,7 +14,7 @@ function FavoritesPage({
       <div className="flex gap-4 py-1 text-white items-center justify-center bg-[#11233c]">
         <Link to="/">Home</Link>
         <Link to="/favorites">Favorites</Link>
-        <Link to="/">Serials</Link>
+        <Link to="/serials">Serials</Link>
         <SearchBar
           query={query}
           setQuery={setQuery}

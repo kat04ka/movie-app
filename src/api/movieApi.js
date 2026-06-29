@@ -80,3 +80,37 @@ export const getMovieCredits = async (
 
   return response.data;
 };
+
+export const getPopularSeries = async (
+  page = 1,
+) => {
+  const response = await axios.get(
+    `${BASE_URL}/tv/popular`,
+    {
+      params: {
+        api_key: API_KEY,
+        page,
+      },
+    },
+  );
+
+  return response.data;
+};
+
+export const searchSeries = async (
+  query,
+  page = 1,
+) => {
+  const response = await axios.get(
+    `${BASE_URL}/search/tv`,
+    {
+      params: {
+        api_key: API_KEY,
+        query,
+        page,
+      },
+    },
+  );
+
+  return response.data;
+};

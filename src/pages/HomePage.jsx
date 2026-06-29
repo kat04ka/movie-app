@@ -77,7 +77,7 @@ function HomePage() {
       <div className="flex gap-4 py-1 text-white items-center justify-center bg-[#11233c]">
         <Link to="/">Home</Link>
         <Link to="/favorites">Favorites</Link>
-        <Link to="/">Serials</Link>
+        <Link to="/series">Series</Link>
         <SearchBar
           query={query}
           setQuery={setQuery}
