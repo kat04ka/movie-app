@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
-import {
-  useParams,
-} from 'react-router-dom';
-import Loader from '../components/ui/Loader';
+import { useParams } from 'react-router-dom';
 import {
   getMovie,
   getCredits,
   getMovieReleaseDates,
 } from '../api/movieApi';
+import Loader from '../components/ui/Loader';
 import ErrorMessage from '../components/ui/ErrorMessage';
 import MovieDetails from '../components/movie/MovieDetails';
 
@@ -31,12 +29,22 @@ function MoviePage() {
 
   useEffect(() => {
     const loadMovie = async () => {
-      try {
-        const movieData = await getMovie(id);
-        setMovie(movieData);
+      setLoading(true);
+      setError('');
 
-        const releaseData =
-          await getMovieReleaseDates(id);
+      try {
+        const [
+          movieData,
+          releaseData,
+          creditsData,
+        ] = await Promise.all([
+          getMovie(id),
+          getMovieReleaseDates(id),
+          getCredits('movie', id),
+        ]);
+
+        setMovie(movieData);
+        setCredits(creditsData);
 
         const USRelease =
           releaseData.results.find(
@@ -47,13 +55,10 @@ function MoviePage() {
         const certification =
           USRelease?.release_dates?.[0]
             ?.certification;
-        setRating(certification || 'NR');
 
-        const creditsData =
-          await getCredits('movie', id);
-        setCredits(creditsData);
+        setRating(certification || 'NR');
       } catch (err) {
-        console.error(err)
+        console.error(err);
         setError('Не удалось загрузить фильм');
       } finally {
         setLoading(false);
@@ -66,7 +71,6 @@ function MoviePage() {
   if (loading) return <Loader />;
   if (error)
     return <ErrorMessage message={error} />;
-  
 
   return (
     <MovieDetails

@@ -19,7 +19,7 @@ function SeriesCard({ tv }) {
       to={`/tv/${id}`}
       onClick={() => {
         sessionStorage.setItem(
-          'homeScroll',
+          'seriesScroll',
           window.scrollY,
         );
       }}
@@ -27,14 +27,18 @@ function SeriesCard({ tv }) {
         from: location,
       }}
     >
-      <div className="flex flex-col h-full rounded-lg w-full 
-      overflow-hidden border border-gray-200 shadow-lg">
+      <div
+        className="flex flex-col h-full rounded-lg w-full 
+      overflow-hidden border border-gray-200 shadow-lg"
+      >
         <img
           src={getPosterUrl(poster_path)}
           alt={name}
         />
         <div className="w-full pt-2 px-3 pb-3 ">
-          <h3 className="font-semibold">{name}</h3>
+          <h3 className="font-semibold">
+            {name}
+          </h3>
           <p className="font-light text-sm mt-1">
             {formatDate(first_air_date)}
           </p>

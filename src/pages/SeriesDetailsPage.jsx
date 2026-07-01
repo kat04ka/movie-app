@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  useParams,
-} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Loader from '../components/ui/Loader';
 import ErrorMessage from '../components/ui/ErrorMessage';
 import SeriesDetails from '../components/series/SeriesDetails';
@@ -37,11 +35,18 @@ function SeriesDetailsPage() {
   useEffect(() => {
     const loadSeries = async () => {
       try {
-        const seriesData = await getSeries(id);
-        setSeries(seriesData);
+        const [
+          seriesData,
+          ratingsData,
+          creditsData,
+        ] = await Promise.all([
+          getSeries(id),
+          getSeriesContentRatings(id),
+          getAggregateCredits(id),
+        ]);
 
-        const ratingsData =
-          await getSeriesContentRatings(id);
+        setSeries(seriesData);
+        setCredits(creditsData);
 
         const usRating = ratingsData.results.find(
           (contry) => contry.iso_3166_1 === 'US',
@@ -49,11 +54,9 @@ function SeriesDetailsPage() {
 
         setRating(usRating?.rating || 'NR');
 
-        const creditsData =
-          await getAggregateCredits(id);
         setCredits(creditsData);
       } catch (err) {
-        setError('Не удалось загрузить фильм');
+        setError('Не удалось загрузить сериал');
       } finally {
         setLoading(false);
       }

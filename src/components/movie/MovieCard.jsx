@@ -20,7 +20,7 @@ function MovieCard({ movie }) {
       to={`/movie/${id}`}
       onClick={() => {
         sessionStorage.setItem(
-          'homeScroll',
+          'movieScroll',
           window.scrollY,
         );
       }}

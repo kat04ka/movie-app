@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
 import {
-  Link,
-  useSearchParams,
-} from 'react-router-dom';
+  useEffect,
+  useLayoutEffect,
+} from 'react';
+import { Link } from 'react-router-dom';
 import ReactPaginateModule from 'react-paginate';
 
 import SearchBar from '../components/movie/SearchBar';
@@ -13,83 +13,37 @@ import {
   searchSeries,
 } from '../api/seriesApi';
 import ErrorMessage from '../components/ui/ErrorMessage';
+import useSearchPagination from '../hooks/useSearchPagination';
 
 function SeriesPage() {
-  const [series, setSeries] = useState([]);
-  const [query, setQuery] = useState('');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [totalPages, setTotalPages] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [searchParams, setSearchParams] =
-    useSearchParams();
+  const {
+    items: series,
+    query,
+    setQuery,
+    loading,
+    error,
+    totalPages,
+    page,
+    handleSubmit,
+    handlePageChange,
+  } = useSearchPagination({
+    searchFn: searchSeries,
+    popularFn: getPopularSeries,
+  });
 
-  const page =
-    Number(searchParams.get('page')) || 1;
-
-  useEffect(() => {
-    const loadSeries = async () => {
-      setLoading(true);
-      setError('');
-
-      try {
-        let data;
-
-        if (searchQuery.trim()) {
-          data = await searchSeries(searchQuery, page);
-        } else {
-          data = await getPopularSeries(page);
-        }
-
-        setSeries(data.results);
-        setTotalPages(
-          Math.min(data.total_pages, 500),
-        );
-      } catch (err) {
-        console.error(err);
-        setError('Не удалось загрузить сериалы');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadSeries();
-  }, [searchQuery, page]);
-
-  useEffect(() => {
-    const scrollY =
-      sessionStorage.getItem('homeScroll');
+  useLayoutEffect(() => {
+    const scrollY = sessionStorage.getItem(
+      'seriesScroll',
+    );
 
     if (scrollY) {
       window.scrollTo(0, Number(scrollY));
-      sessionStorage.removeItem('homeScroll');
     }
   }, [series]);
 
   useEffect(() => {
-  setQuery(searchParams.get('query') || '');
-}, [searchParams]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!query.trim()) return;
-
-    setSearchQuery(query);
-    setSearchParams({ page: 1, query });
-  };
-
-  const handlePageChange = ({ selected }) => {
-    const params = {
-      page: selected + 1,
-    };
-
-    if (query.trim()) {
-      params.query = query;
-    }
-
-    setSearchParams(params);
-  };
+    console.log('SeriesPage mounted');
+  }, []);
 
   if (loading) return <Loader />;
   if (error) {
