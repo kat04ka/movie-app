@@ -2,28 +2,28 @@ import {
   getBackdropUrl,
   getPosterUrl,
 } from '../../utils/imageUrl';
-import CastList from './CastList';
-import CrewInfo from './CrewInfo';
-import MovieInfo from './MovieInfo';
-import MovieMeta from './MovieMeta';
+import CastList from '../movie/CastList';
 
-function MovieDetails({
-  movie,
+import CrewInfo from './SeriesCrewInfo';
+import SeriesInfo from './SeriesInfo';
+import SeriesMeta from './SeriesMeta';
+
+function SeriesDetails({
+  series,
   rating,
   cast,
-  director,
-  writers,
 }) {
   const {
     backdrop_path,
     poster_path,
-    title,
     name,
     status,
-    budget,
+    created_by,
     original_language,
-    revenue,
-  } = movie;
+    type,
+    networks,
+  } = series;
+  
   return (
     <div>
       <div className="relative overflow-hidden">
@@ -50,18 +50,17 @@ function MovieDetails({
               <img
                 className="w-55 h-82 rounded-lg object-cover"
                 src={getPosterUrl(poster_path)}
-                alt={title || name}
+                alt={name}
               />
             )}
             <div className="flex-1 text-white">
-              <MovieInfo
-                movie={movie}
+              <SeriesInfo
+                series={series}
                 ageRating={rating}
               />
               <div>
                 <CrewInfo
-                  director={director}
-                  writers={writers}
+                  created_by={created_by}
                 />
               </div>
             </div>
@@ -74,11 +73,11 @@ function MovieDetails({
             <CastList cast={cast} />
           </div>
           <aside className="shrink-0">
-            <MovieMeta
+            <SeriesMeta
               status={status}
-              budget={budget}
+              networks={networks}
               originalLanguage={original_language}
-              revenue={revenue}
+              type={type}
             />
           </aside>
         </div>
@@ -87,4 +86,4 @@ function MovieDetails({
   );
 }
 
-export default MovieDetails;
+export default SeriesDetails;

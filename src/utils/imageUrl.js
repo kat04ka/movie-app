@@ -18,3 +18,8 @@ export const getPosterUrl = (
 
   return `${IMAGE_BASE_URL}/${size}${path}`;
 };
+
+export const getLogoUrl = (path) =>
+  path
+    ? `https://image.tmdb.org/t/p/h30${path}`
+    : '';

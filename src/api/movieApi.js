@@ -1,116 +1,55 @@
-import axios from 'axios';
+import { tmdb } from './tmdb';
 
-const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+export const getPopularMovies = async (
+  page = 1,
+) => {
+  const { data } = await tmdb.get(
+    '/movie/popular',
+    {
+      params: { page },
+    },
+  );
 
-const BASE_URL = 'https://api.themoviedb.org/3';
+  return data;
+};
 
 export const searchMovies = async (
   query,
   page = 1,
 ) => {
-  const response = await axios.get(
-    `${BASE_URL}/search/movie`,
+  const { data } = await tmdb.get(
+    '/search/movie',
     {
       params: {
-        api_key: API_KEY,
         query,
         page,
       },
     },
   );
 
-  return response.data;
+  return data;
 };
 
-export const getPopularMovies = async (
-  page = 1,
-) => {
-  const response = await axios.get(
-    `${BASE_URL}/movie/popular`,
-    {
-      params: {
-        api_key: API_KEY,
-        page,
-      },
-    },
-  );
+export const getMovie = async (id) => {
+  const { data } = await tmdb.get(`/movie/${id}`);
 
-  return response.data;
-};
-
-export const getMovie = async (movieId) => {
-  const response = await axios.get(
-    `${BASE_URL}/movie/${movieId}`,
-    {
-      params: {
-        api_key: API_KEY,
-      },
-    },
-  );
-
-  return response.data;
+  return data;
 };
 
 export const getMovieReleaseDates = async (
-  movieId,
+  id,
 ) => {
-  const response = await axios.get(
-    `${BASE_URL}/movie/${movieId}/release_dates`,
-    {
-      params: {
-        api_key: API_KEY,
-      },
-    },
+  const { data } = await tmdb.get(
+    `/movie/${id}/release_dates`,
   );
 
-  return response.data;
+  return data;
 };
 
-export const getMovieCredits = async (
-  movieId,
-) => {
-  const response = await axios.get(
-    `${BASE_URL}/movie/${movieId}/credits`,
-    {
-      params: {
-        api_key: API_KEY,
-      },
-    },
+export const getCredits = async (type, id) => {
+  const { data } = await tmdb.get(
+    `/${type}/${id}/credits`,
   );
 
-  return response.data;
-};
-
-export const getPopularSeries = async (
-  page = 1,
-) => {
-  const response = await axios.get(
-    `${BASE_URL}/tv/popular`,
-    {
-      params: {
-        api_key: API_KEY,
-        page,
-      },
-    },
-  );
-
-  return response.data;
-};
-
-export const searchSeries = async (
-  query,
-  page = 1,
-) => {
-  const response = await axios.get(
-    `${BASE_URL}/search/tv`,
-    {
-      params: {
-        api_key: API_KEY,
-        query,
-        page,
-      },
-    },
-  );
-
-  return response.data;
+  return data;
 };

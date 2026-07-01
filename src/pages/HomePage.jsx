@@ -1,6 +1,5 @@
 import {
   Link,
-  useLocation,
   useSearchParams,
 } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -9,8 +8,8 @@ import {
   getPopularMovies,
 } from '../api/movieApi';
 import MovieList from '../components/movie/MovieList';
-import ReactPaginateModule from 'react-paginate';
 import SearchBar from '../components/movie/SearchBar';
+import ReactPaginateModule from 'react-paginate';
 
 function HomePage() {
   const [query, setQuery] = useState('');
@@ -21,36 +20,34 @@ function HomePage() {
 
   const page =
     Number(searchParams.get('page')) || 1;
-  const location = useLocation();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!query.trim()) return;
-
-    setSearchParams({ page: 1, query });
-  };
 
   useEffect(() => {
     const loadMovies = async () => {
-      if (query.trim()) {
+      const searchQuery =
+        searchParams.get('query') || '';
+
+      if (searchQuery.trim()) {
         const data = await searchMovies(
-          query,
+          searchQuery,
           page,
         );
 
         setMovies(data.results);
-        setTotalPages(data.total_pages);
+        setTotalPages(
+          Math.min(data.total_pages, 500),
+        );
       } else {
         const data = await getPopularMovies(page);
 
         setMovies(data.results);
-        setTotalPages(data.total_pages);
+        setTotalPages(
+          Math.min(data.total_pages, 500),
+        );
       }
     };
 
     loadMovies();
-  }, [query, page]);
+  }, [searchParams]);
 
   useEffect(() => {
     if (!movies.length) return;
@@ -64,8 +61,28 @@ function HomePage() {
     }
   }, [movies]);
 
+  useEffect(() => {
+    setQuery(searchParams.get('query') || '');
+  }, [searchParams]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!query.trim()) return;
+
+    setSearchParams({ page: 1, query });
+  };
+
   const handlePageChange = ({ selected }) => {
-    setSearchParams({ page: selected + 1 });
+    const params = {
+      page: selected + 1,
+    };
+
+    if (query.trim()) {
+      params.query = query;
+    }
+
+    setSearchParams(params);
   };
 
   return (

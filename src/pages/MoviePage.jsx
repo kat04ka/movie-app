@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import {
-  useLocation,
   useParams,
 } from 'react-router-dom';
 import Loader from '../components/ui/Loader';
 import {
   getMovie,
-  getMovieCredits,
+  getCredits,
   getMovieReleaseDates,
 } from '../api/movieApi';
 import ErrorMessage from '../components/ui/ErrorMessage';
@@ -20,8 +19,6 @@ function MoviePage() {
   const [error, setError] = useState('');
   const [credits, setCredits] = useState(null);
 
-  const location = useLocation();
-  const backLink = location.state?.from ?? '/';
   const director = credits?.crew?.find(
     (person) => person.job === 'Director',
   );
@@ -41,21 +38,22 @@ function MoviePage() {
         const releaseData =
           await getMovieReleaseDates(id);
 
-        const usRelease =
+        const USRelease =
           releaseData.results.find(
             (contry) =>
-              contry.iso_3166_1 === 'ES',
+              contry.iso_3166_1 === 'US',
           );
 
         const certification =
-          usRelease?.release_dates?.[0]
+          USRelease?.release_dates?.[0]
             ?.certification;
         setRating(certification || 'NR');
 
         const creditsData =
-          await getMovieCredits(id);
+          await getCredits('movie', id);
         setCredits(creditsData);
       } catch (err) {
+        console.error(err)
         setError('Не удалось загрузить фильм');
       } finally {
         setLoading(false);
@@ -68,6 +66,7 @@ function MoviePage() {
   if (loading) return <Loader />;
   if (error)
     return <ErrorMessage message={error} />;
+  
 
   return (
     <MovieDetails

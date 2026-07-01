@@ -1,55 +1,100 @@
+import { useEffect, useState } from 'react';
 import {
   Link,
-  useParams,
   useSearchParams,
 } from 'react-router-dom';
+import ReactPaginateModule from 'react-paginate';
+
+import SearchBar from '../components/movie/SearchBar';
+import SeriesList from '../components/series/SeriesList';
+import Loader from '../components/ui/Loader';
 import {
   getPopularSeries,
   searchSeries,
-} from '../api/movieApi';
-import SearchBar from '../components/movie/SearchBar';
-import { useEffect, useState } from 'react';
-import SeriesList from '../components/series/SeriesList';
+} from '../api/seriesApi';
+import ErrorMessage from '../components/ui/ErrorMessage';
 
 function SeriesPage() {
-  const { id } = useParams();
-  const [query, setQuery] = useState('');
   const [series, setSeries] = useState([]);
+  const [query, setQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const [totalPages, setTotalPages] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [searchParams, setSearchParams] =
     useSearchParams();
 
   const page =
     Number(searchParams.get('page')) || 1;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!query.trim()) return;
-
-    setSearchParams({ page: 1, query });
-  };
-
   useEffect(() => {
     const loadSeries = async () => {
-      if (query.trim()) {
-        const data = await searchSeries(
-          query,
-          page,
+      setLoading(true);
+      setError('');
+
+      try {
+        let data;
+
+        if (searchQuery.trim()) {
+          data = await searchSeries(searchQuery, page);
+        } else {
+          data = await getPopularSeries(page);
+        }
+
+        setSeries(data.results);
+        setTotalPages(
+          Math.min(data.total_pages, 500),
         );
-
-        setSeries(data.results);
-        setTotalPages(data.total_pages);
-      } else {
-        const data = await getPopularSeries(page);
-
-        setSeries(data.results);
-        setTotalPages(data.total_pages);
+      } catch (err) {
+        console.error(err);
+        setError('Не удалось загрузить сериалы');
+      } finally {
+        setLoading(false);
       }
     };
 
     loadSeries();
-  }, [query, page]);
+  }, [searchQuery, page]);
+
+  useEffect(() => {
+    const scrollY =
+      sessionStorage.getItem('homeScroll');
+
+    if (scrollY) {
+      window.scrollTo(0, Number(scrollY));
+      sessionStorage.removeItem('homeScroll');
+    }
+  }, [series]);
+
+  useEffect(() => {
+  setQuery(searchParams.get('query') || '');
+}, [searchParams]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!query.trim()) return;
+
+    setSearchQuery(query);
+    setSearchParams({ page: 1, query });
+  };
+
+  const handlePageChange = ({ selected }) => {
+    const params = {
+      page: selected + 1,
+    };
+
+    if (query.trim()) {
+      params.query = query;
+    }
+
+    setSearchParams(params);
+  };
+
+  if (loading) return <Loader />;
+  if (error) {
+    return <ErrorMessage message={error} />;
+  }
 
   return (
     <div>
@@ -64,7 +109,26 @@ function SeriesPage() {
         />
       </div>
       <SeriesList series={series} />
-      <h2>Serials</h2>
+      {totalPages > 0 && (
+        <ReactPaginateModule.default
+          pageCount={totalPages}
+          onPageChange={handlePageChange}
+          forcePage={page - 1}
+          pageRangeDisplayed={5}
+          marginPagesDisplayed={1}
+          previousLabel="<"
+          nextLabel=">"
+          breakLabel="..."
+          containerClassName="flex justify-center gap-2 my-8"
+          pageClassName="border rounded"
+          pageLinkClassName="block px-4 py-2 cursor-pointer"
+          activeClassName="bg-blue-500 text-white"
+          previousClassName="border rounded"
+          previousLinkClassName="block px-4 py-2 cursor-pointer"
+          nextClassName="border rounded"
+          nextLinkClassName="block px-4 py-2 cursor-pointer"
+        />
+      )}
     </div>
   );
 }

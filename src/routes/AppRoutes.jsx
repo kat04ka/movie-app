@@ -3,6 +3,7 @@ import HomePage from '../pages/HomePage';
 import MoviePage from '../pages/MoviePage';
 import FavoritesPage from '../pages/FavoritesPage';
 import SeriesPage from '../pages/SeriesPage';
+import SeriesDetailsPage from '../pages/SeriesDetailsPage';
 
 function AppRoutes() {
   return (
@@ -20,6 +21,7 @@ function AppRoutes() {
         path="/series"
         element={<SeriesPage />}
       />
+      <Route path="/tv/:id" element={<SeriesDetailsPage />} />
     </Routes>
   );
 }

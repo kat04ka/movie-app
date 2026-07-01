@@ -3,7 +3,7 @@ import {
   getPosterUrl,
 } from '../../utils/imageUrl';
 import CastList from './CastList';
-import CrewInfo from './CrewInfo';
+import CrewInfo from './MovieCrewInfo';
 import MovieInfo from './MovieInfo';
 import MovieMeta from './MovieMeta';
 

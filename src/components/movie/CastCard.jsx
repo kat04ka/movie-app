@@ -1,7 +1,12 @@
 import { getPosterUrl } from '../../utils/imageUrl';
 
 function CastCard({ actor }) {
-  const { name, character, profile_path } = actor;
+  const {
+    name,
+    character,
+    profile_path,
+    episode_count,
+  } = actor;
 
   return (
     <div
@@ -21,6 +26,11 @@ function CastCard({ actor }) {
       <div className="p-2">
         <h4 className="font-bold">{name}</h4>
         <p className="text-sm">{character}</p>
+        {episode_count > 0 && (
+          <p className="text-xs text-gray-500">
+            {episode_count} episodes
+          </p>
+        )}
       </div>
     </div>
   );
