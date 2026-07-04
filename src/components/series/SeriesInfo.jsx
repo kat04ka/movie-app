@@ -11,13 +11,16 @@ function SeriesInfo({ series, ageRating }) {
     overview,
   } = series;
 
-  const voteRating = vote_average.toFixed(1)
+  const voteRating = vote_average.toFixed(1);
+
   return (
     <div className="text-white">
       <h1 className="text-4xl gap-2 font-bold mb-2">
         {name}{' '}
         <span className="text-white/70 font-normal">
-          ({new Date(first_air_date).getFullYear()})
+          (
+          {new Date(first_air_date).getFullYear()}
+          )
         </span>
       </h1>
 

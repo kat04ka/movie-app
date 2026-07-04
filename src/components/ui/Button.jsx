@@ -2,7 +2,7 @@ function Button({
   children,
   type = 'button',
   onClick,
-  classname = '',
+  className = '',
 }) {
   return (
     <button
@@ -10,7 +10,7 @@ function Button({
       onClick={onClick}
       className={`border rounded-lg px-2 py-0.5 bg-blue-500
         hover:bg-blue-600 text-white
-        transition ${classname}`}
+        transition ${className}`}
     >
       {children}
     </button>

@@ -1,1 +1,21 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+.header {
+  background: linear-gradient(
+    135deg,
+    #1b3a63 0%,
+    #112a49 100%
+  );
+}
+
+@media (max-width: 1024px) {
+  .movie-backdrop {
+    background-position: 40% center;
+  }
+}
+
+@media (max-width: 640px) {
+  .movie-backdrop {
+    background-position: 40% center;
+  }
+}

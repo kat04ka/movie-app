@@ -4,6 +4,7 @@ import {
 } from 'react-router-dom';
 import { formatDate } from '../../utils/formatDate';
 import { getPosterUrl } from '../../utils/imageUrl';
+import FavoriteButton from '../ui/FavoriteButton';
 
 function SeriesCard({ tv }) {
   const {
@@ -16,6 +17,7 @@ function SeriesCard({ tv }) {
   const location = useLocation();
   return (
     <Link
+      className="group relative"
       to={`/tv/${id}`}
       onClick={() => {
         sessionStorage.setItem(
@@ -44,6 +46,16 @@ function SeriesCard({ tv }) {
           </p>
         </div>
       </div>
+
+      <FavoriteButton
+        item={{
+          id,
+          mediaType: 'tv',
+          title: name,
+          poster_path,
+          release_date: first_air_date,
+        }}
+      />
     </Link>
   );
 }

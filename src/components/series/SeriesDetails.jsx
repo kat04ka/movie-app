@@ -8,11 +8,7 @@ import CrewInfo from './SeriesCrewInfo';
 import SeriesInfo from './SeriesInfo';
 import SeriesMeta from './SeriesMeta';
 
-function SeriesDetails({
-  series,
-  rating,
-  cast,
-}) {
+function SeriesDetails({ series, rating, cast }) {
   const {
     backdrop_path,
     poster_path,
@@ -23,7 +19,7 @@ function SeriesDetails({
     type,
     networks,
   } = series;
-  
+
   return (
     <div>
       <div className="relative overflow-hidden">
@@ -44,7 +40,7 @@ function SeriesDetails({
           rgba(31,10,10,0.84) 100%)`,
           }}
         />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 py-10">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-8 py-10">
           <div className="flex flex-col sm:flex-row gap-5">
             {poster_path && (
               <img

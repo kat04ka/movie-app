@@ -11,7 +11,7 @@ function MovieInfo({ movie, ageRating }) {
     overview,
   } = movie;
 
-  const voteRating = vote_average.toFixed(1)
+  const voteRating = vote_average.toFixed(1);
   return (
     <div className="text-white">
       <h1 className="text-4xl gap-2 font-bold mb-2">

@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useSearch } from '../context/SearchContext';
 
 export default function useSearchPagination({
   searchFn,
   popularFn,
 }) {
   const [items, setItems] = useState([]);
-  const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [totalPages, setTotalPages] = useState(0);
 
   const [searchParams, setSearchParams] =
     useSearchParams();
+  const { query, setQuery } =
+    useSearch();
 
   const page =
     Number(searchParams.get('page')) || 1;
@@ -49,14 +51,6 @@ export default function useSearchPagination({
     loadItems();
   }, [searchParams, page, searchFn, popularFn]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!query.trim()) return;
-
-    setSearchParams({ page: 1, query });
-  };
-
   const handlePageChange = ({ selected }) => {
     sessionStorage.removeItem('seriesScroll');
 
@@ -79,7 +73,6 @@ export default function useSearchPagination({
     error,
     totalPages,
     page,
-    handleSubmit,
     handlePageChange,
   };
 }

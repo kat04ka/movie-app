@@ -16,7 +16,9 @@ function SearchBar({
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search movie"
       />
-      <Button type="submit">Search</Button>
+      {onSubmit && (
+        <Button type="submit">Search</Button>
+      )}
     </form>
   );
 }

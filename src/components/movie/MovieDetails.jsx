@@ -24,6 +24,7 @@ function MovieDetails({
     original_language,
     revenue,
   } = movie;
+
   return (
     <div>
       <div className="relative overflow-hidden">
@@ -44,8 +45,8 @@ function MovieDetails({
           rgba(31,10,10,0.84) 100%)`,
           }}
         />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 py-10">
-          <div className="flex flex-col sm:flex-row gap-5">
+        <div className="relative max-w-7xl mx-auto px-8 py-8">
+          <div className="flex flex-col sm:flex-row gap-5 ">
             {poster_path && (
               <img
                 className="w-55 h-82 rounded-lg object-cover"
@@ -68,7 +69,7 @@ function MovieDetails({
           </div>
         </div>
       </div>
-      <div className="max-w-7xl mx-auto px-8 py-8">
+      <div className="movie max-w-7xl mx-auto px-8 py-8">
         <div className="flex flex-col sm:flex-row items-start">
           <div className="w-full min-w-0 overflow-hidden pr-0 sm:pr-2">
             <CastList cast={cast} />

@@ -9,7 +9,7 @@ function CastList({ cast }) {
 
       <div className="w-full overflow-x-auto">
         <div className="flex w-max gap-3 pb-4">
-          {cast?.slice(0, 10).map((actor) => (
+          {cast?.slice(0, 9).map((actor) => (
             <CastCard
               key={actor.id}
               actor={actor}

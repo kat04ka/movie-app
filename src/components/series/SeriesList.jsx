@@ -5,7 +5,7 @@ function SerieList({ series }) {
     <div
       className="grid 
         grid-cols-[repeat(auto-fit,minmax(180px,1fr))] 
-        m-4 gap-6"
+        gap-6 px-8"
     >
       {series.map((tv) => (
         <SeriesCard key={tv.id} tv={tv} />
