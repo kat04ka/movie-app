@@ -1,6 +1,6 @@
 import {
   getBackdropUrl,
-  getPosterUrl,
+  getPosterImage,
 } from '../../utils/imageUrl';
 import CastList from './CastList';
 import CrewInfo from './MovieCrewInfo';
@@ -47,13 +47,15 @@ function MovieDetails({
         />
         <div className="relative max-w-7xl mx-auto px-8 py-8">
           <div className="flex flex-col sm:flex-row gap-5 ">
-            {poster_path && (
-              <img
-                className="w-55 h-82 rounded-lg object-cover"
-                src={getPosterUrl(poster_path)}
-                alt={title || name}
-              />
-            )}
+            <img
+              className={`w-55 h-82 rounded-lg ${
+                poster_path
+                  ? 'object-cover'
+                  : 'object-contain bg-gray-200 p-14'
+              }`}
+              src={getPosterImage(poster_path)}
+              alt={title || name}
+            />
             <div className="flex-1 text-white">
               <MovieInfo
                 movie={movie}

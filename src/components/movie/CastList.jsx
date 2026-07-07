@@ -7,16 +7,22 @@ function CastList({ cast }) {
         Top Billed Cast
       </h3>
 
-      <div className="w-full overflow-x-auto">
-        <div className="flex w-max gap-3 pb-4">
-          {cast?.slice(0, 9).map((actor) => (
-            <CastCard
-              key={actor.id}
-              actor={actor}
-            />
-          ))}
+      {!cast?.length ? (
+        <p className="text-gray-700">
+          We don't have any cast added to this movie.
+        </p>
+      ) : (
+        <div className="w-full overflow-x-auto">
+          <div className="flex w-max gap-3 pb-4">
+            {cast?.slice(0, 9).map((actor) => (
+              <CastCard
+                key={actor.id}
+                actor={actor}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

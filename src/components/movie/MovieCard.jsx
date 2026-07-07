@@ -3,7 +3,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 import { formatDate } from '../../utils/formatDate';
-import { getPosterUrl } from '../../utils/imageUrl';
+import { getPosterImage } from '../../utils/imageUrl';
 import FavoriteButton from '../ui/FavoriteButton';
 
 function MovieCard({ movie }) {
@@ -16,6 +16,7 @@ function MovieCard({ movie }) {
   } = movie;
 
   const location = useLocation();
+
   return (
     <Link
       className="group relative"
@@ -35,19 +36,27 @@ function MovieCard({ movie }) {
       overflow-hidden border border-gray-200 shadow-lg"
       >
         <img
-          src={getPosterUrl(poster_path)}
+          className={`w-full aspect-[2/3] ${
+            poster_path
+              ? 'object-cover'
+              : 'object-contain p-12 bg-gray-200'
+          }`}
+          src={getPosterImage(poster_path)}
           alt={title || name}
         />
         <div className="w-full pt-2 px-3 pb-3 ">
           <h3 className="font-semibold">
             {title}
           </h3>
-          <p className="font-light text-sm mt-1">
-            {formatDate(release_date)}
-          </p>
+
+          {release_date && (
+            <p className="font-light text-sm mt-1">
+              {formatDate(release_date)}
+            </p>
+          )}
         </div>
       </div>
-      
+
       <FavoriteButton
         item={{
           id: movie.id,

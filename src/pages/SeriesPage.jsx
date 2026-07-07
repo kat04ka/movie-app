@@ -33,6 +33,7 @@ function SeriesPage() {
     if (scrollY) {
       window.scrollTo(0, Number(scrollY));
     }
+    // sessionStorage.removeItem('seriesScroll');
   }, [series]);
 
   if (loading) return <Loader />;

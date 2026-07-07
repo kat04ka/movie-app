@@ -1,5 +1,6 @@
 import {
   getBackdropUrl,
+  getPosterImage,
   getPosterUrl,
 } from '../../utils/imageUrl';
 import CastList from '../movie/CastList';
@@ -42,13 +43,15 @@ function SeriesDetails({ series, rating, cast }) {
         />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-8 py-10">
           <div className="flex flex-col sm:flex-row gap-5">
-            {poster_path && (
-              <img
-                className="w-55 h-82 rounded-lg object-cover"
-                src={getPosterUrl(poster_path)}
-                alt={name}
-              />
-            )}
+            <img
+              className={`w-55 h-82 rounded-lg ${
+                poster_path
+                  ? 'object-cover'
+                  : 'object-contain bg-gray-200 p-14'
+              }`}
+              src={getPosterImage(poster_path)}
+              alt={name}
+            />
             <div className="flex-1 text-white">
               <SeriesInfo
                 series={series}
