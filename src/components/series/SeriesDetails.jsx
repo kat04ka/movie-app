@@ -4,6 +4,7 @@ import {
   getPosterUrl,
 } from '../../utils/imageUrl';
 import CastList from '../movie/CastList';
+import FavoriteButton from '../ui/FavoriteButton';
 
 import CrewInfo from './SeriesCrewInfo';
 import SeriesInfo from './SeriesInfo';
@@ -11,6 +12,8 @@ import SeriesMeta from './SeriesMeta';
 
 function SeriesDetails({ series, rating, cast }) {
   const {
+    id,
+    first_air_date,
     backdrop_path,
     poster_path,
     name,
@@ -43,15 +46,27 @@ function SeriesDetails({ series, rating, cast }) {
         />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-8 py-10">
           <div className="flex flex-col sm:flex-row gap-5">
-            <img
-              className={`w-55 h-82 rounded-lg ${
-                poster_path
-                  ? 'object-cover'
-                  : 'object-contain bg-gray-200 p-14'
-              }`}
-              src={getPosterImage(poster_path)}
-              alt={name}
-            />
+            <div className="relative w-55">
+              <img
+                className={`w-55 h-82 rounded-lg ${
+                  poster_path
+                    ? 'object-cover'
+                    : 'object-contain bg-gray-200 p-14'
+                }`}
+                src={getPosterImage(poster_path)}
+                alt={name}
+              />
+              <FavoriteButton
+                item={{
+                  id,
+                  mediaType: 'tv',
+                  title: name,
+                  poster_path,
+                  release_date: first_air_date,
+                }}
+              />
+            </div>
+
             <div className="flex-1 text-white">
               <SeriesInfo
                 series={series}

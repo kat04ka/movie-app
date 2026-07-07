@@ -59,11 +59,11 @@ function MovieCard({ movie }) {
 
       <FavoriteButton
         item={{
-          id: movie.id,
+          id,
           mediaType: 'movie',
-          title: movie.title,
-          poster_path: movie.poster_path,
-          release_date: movie.release_date,
+          title,
+          poster_path,
+          release_date,
         }}
       />
     </Link>

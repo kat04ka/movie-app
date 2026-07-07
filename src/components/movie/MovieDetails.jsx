@@ -2,6 +2,7 @@ import {
   getBackdropUrl,
   getPosterImage,
 } from '../../utils/imageUrl';
+import FavoriteButton from '../ui/FavoriteButton';
 import CastList from './CastList';
 import CrewInfo from './MovieCrewInfo';
 import MovieInfo from './MovieInfo';
@@ -15,6 +16,8 @@ function MovieDetails({
   writers,
 }) {
   const {
+    id,
+    release_date,
     backdrop_path,
     poster_path,
     title,
@@ -26,7 +29,7 @@ function MovieDetails({
   } = movie;
 
   return (
-    <div>
+    <div className="group relative">
       <div className="relative overflow-hidden">
         <div
           className="movie-backdrop absolute inset-0 bg-cover"
@@ -47,15 +50,28 @@ function MovieDetails({
         />
         <div className="relative max-w-7xl mx-auto px-8 py-8">
           <div className="flex flex-col sm:flex-row gap-5 ">
-            <img
-              className={`w-55 h-82 rounded-lg ${
-                poster_path
-                  ? 'object-cover'
-                  : 'object-contain bg-gray-200 p-14'
-              }`}
-              src={getPosterImage(poster_path)}
-              alt={title || name}
-            />
+            <div className="relative w-55">
+              <img
+                className={`w-55 h-82 rounded-lg ${
+                  poster_path
+                    ? 'object-cover'
+                    : 'object-contain bg-gray-200 p-14'
+                }`}
+                src={getPosterImage(poster_path)}
+                alt={title || name}
+              />
+
+              <FavoriteButton
+                item={{
+                  id,
+                  mediaType: 'movie',
+                  title,
+                  poster_path,
+                  release_date,
+                }}
+              />
+            </div>
+
             <div className="flex-1 text-white">
               <MovieInfo
                 movie={movie}
